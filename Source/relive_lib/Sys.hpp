@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Types.hpp"
 
 struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
@@ -26,7 +27,7 @@ std::string BuildString();
 std::string BuildAndBitnesString();
 std::string WindowTitleAO(const std::string& modName = "");
 std::string WindowTitleAE(const std::string& modName = "");
-void Alive_Show_ErrorMsg(const char_type* fmt, ...);
+void Alive_Show_ErrorMsg(const char_type* fmt, ...) RELIVE_PRINTF_FMT(1, 2);
 u32 SYS_GetTicks();
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);

@@ -11,6 +11,7 @@
 #include "../relive_lib/data_conversion/string_util.hpp"
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 #include <SDL3/SDL_gamepad.h>
 #include <FatalError.hpp>
 #include <nlohmann/json.hpp>
@@ -199,14 +200,14 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
         f32 f_RY = SDL_GetGamepadAxis(pSDLController, SDL_GAMEPAD_AXIS_RIGHTY) / 32767.0f;
 
         // Joysticks
-        if (abs(f_LX) > deadzone)
+        if (std::fabs(f_LX) > deadzone)
             *pX1 = f_LX;
-        if (abs(f_LY) > deadzone)
+        if (std::fabs(f_LY) > deadzone)
             *pY1 = f_LY;
 
-        if (abs(f_RX) > deadzone)
+        if (std::fabs(f_RX) > deadzone)
             *pX2 = f_RX;
-        if (abs(f_RY) > deadzone)
+        if (std::fabs(f_RY) > deadzone)
             *pY2 = f_RY;
 
         // DPad Movement

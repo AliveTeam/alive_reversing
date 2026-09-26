@@ -49,7 +49,7 @@ public:
     }
 
 private:
-    Model& mModel;
+    [[maybe_unused]] Model& mModel;
     const std::vector<std::string> mOldMsgs;
     const std::vector<std::string> mNewMsgs;
     bool mIsLCDScreenMsgs = false;

@@ -1010,7 +1010,7 @@ SeqHandleTable sSeqData = {
 
 SeqHandleTable gSeqData = sSeqData;
 
-const static PerLvlData gMovieMenuInfos_561540[28] = {
+[[maybe_unused]] const static PerLvlData gMovieMenuInfos_561540[28] = {
     {"GT Logo", EReliveLevelIds::eMenu, 65535, 65535, 3u, 65535, 65535},
     {"Oddworld Intro", EReliveLevelIds::eMenu, 65535, 65535, 1u, 65535, 65535},
     {"Abe's Exoddus", EReliveLevelIds::eMenu, 65535, 65535, 5u, 65535, 65535},
@@ -1041,7 +1041,7 @@ const static PerLvlData gMovieMenuInfos_561540[28] = {
     {"Credits", EReliveLevelIds::eCredits, 65535, 65535, 65535u, 65535, 65535}};
 
 
-const static PerLvlData gDemoData_off_5617F0[23] = {
+[[maybe_unused]] const static PerLvlData gDemoData_off_5617F0[23] = {
     {"Mudokons 1", EReliveLevelIds::eMines, 8, 5, 0u, 0, 0},                   // MI P8
     {"Mudokons 2", EReliveLevelIds::eMines, 8, 32, 1u, 0, 0},                  // MI P8
     {"Mudokons 3", EReliveLevelIds::eMines, 8, 21, 2u, 0, 0},                  // MI P8

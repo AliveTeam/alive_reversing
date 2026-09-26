@@ -21,7 +21,4 @@ public:
     {
         return nullptr;
     }
-
-private:
-    void* mProperty = nullptr;
 };

@@ -899,7 +899,7 @@ s32 Masher::ReadNextFrame()
     // Audio with no video
     if (field_60_bHasAudio && !field_61_bHasVideo)
     {
-        field_48_sound_frame_to_decode = (s32*) ((s8*) field_80_raw_frame_data + frameOffset);
+        field_48_sound_frame_to_decode = reinterpret_cast<s32*>(reinterpret_cast<u8*>(field_80_raw_frame_data) + frameOffset);
     }
     // Video with no audio
     else if (!field_60_bHasAudio && field_61_bHasVideo)

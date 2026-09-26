@@ -61,7 +61,7 @@ enum MenuResIds
     eAbeIntro = 2,
     eMenuDoor = 3,
     eOptionFlare = 4,
-    eUnknown = 5,
+    eUnknown_5 = 5,
     eResHighLite = 6,
     eSligSpeak = 7,
     eGlukkonSpeak = 8,
@@ -110,7 +110,7 @@ enum MainMenuCams : u16
     eCheatMenu_SelectLevelCam = 31,
 };
 
-enum camTransEffectState : s16
+enum class camTransEffectState : s16
 {
     eDone_0 = 0,
     eConstructed_1 = 1,

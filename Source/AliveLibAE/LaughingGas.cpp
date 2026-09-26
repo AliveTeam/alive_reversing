@@ -15,7 +15,7 @@ bool gLaughingGasOn = false;
 
 static const u32 sRedShift = 11;
 static const u32 sGreenShift = 6;
-static const u32 sBlueShift = 0;
+[[maybe_unused]] static const u32 sBlueShift = 0;
 
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.

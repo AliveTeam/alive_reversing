@@ -25,6 +25,7 @@ enum class LogLevels
     Error,
 };
 
+inline void log_impl(LogLevels logLevel, const char* funcName, const char* format, ...) RELIVE_PRINTF_FMT(3, 4);
 inline void log_impl(LogLevels logLevel, const char* funcName, const char* format, ...)
 {
     va_list args;
@@ -52,18 +53,18 @@ inline void log_impl(LogLevels logLevel, const char* funcName, const char* forma
 
 #ifdef LOGGING
     #define TRACE_ENTRYEXIT Logging::AutoLog __funcTrace(FNAME)
-    #define LOG_TRACE(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, ##__VA_ARGS__)
-    #define LOG_INFO(fmt, ...) log_impl(LogLevels::Info, FNAME, fmt, ##__VA_ARGS__)
-    #define LOG_WARNING(fmt, ...) log_impl(LogLevels::Warning, FNAME, fmt, ##__VA_ARGS__)
-    #define LOG_ERROR(fmt, ...) log_impl(LogLevels::Error, FNAME, fmt, ##__VA_ARGS__)
-    #define LOG(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, ##__VA_ARGS__)
+    #define LOG_TRACE(...) log_impl(LogLevels::Trace, FNAME, __VA_ARGS__)
+    #define LOG_INFO(...) log_impl(LogLevels::Info, FNAME, __VA_ARGS__)
+    #define LOG_WARNING(...) log_impl(LogLevels::Warning, FNAME, __VA_ARGS__)
+    #define LOG_ERROR(...) log_impl(LogLevels::Error, FNAME, __VA_ARGS__)
+    #define LOG(...) log_impl(LogLevels::Trace, FNAME, __VA_ARGS__)
 #else
     #define TRACE_ENTRYEXIT
-    #define LOG_TRACE(fmt, ...)
-    #define LOG_INFO(fmt, ...)
-    #define LOG_WARNING(fmt, ...)
-    #define LOG_ERROR(fmt, ...)
-    #define LOG(fmt, ...)
+    #define LOG_TRACE(...)
+    #define LOG_INFO(...)
+    #define LOG_WARNING(...)
+    #define LOG_ERROR(...)
+    #define LOG(...)
 #endif
 
 [[noreturn]] inline void HOOK_FATAL(const char_type* errMsg)

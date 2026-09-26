@@ -1484,7 +1484,7 @@ s32 MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, s32 vol)
 
 s16 MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 {
-    const f32 pitcha = pow(1.059463094359f, (f32) pitch * 0.0078125f);
+    const f32 pitcha = std::pow(1.059463094359f, (f32) pitch * 0.0078125f);
     for (s32 i = 0; i < kNumChannels; i++)
     {
         if (gSpuVars->sMidi_Channels().channels[i].field_1C_adsr.field_1_program == program)
@@ -1499,7 +1499,7 @@ s16 MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 
 s16 SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
 {
-    const f32 freq = pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32) old_note) * 128) - old_fine) * 0.0078125f);
+    const f32 freq = std::pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32) old_note) * 128) - old_fine) * 0.0078125f);
     GetSoundAPI().mSND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
     return 0;
 }

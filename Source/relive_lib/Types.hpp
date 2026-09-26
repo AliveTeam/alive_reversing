@@ -18,4 +18,12 @@ using f64 = double;
 using u64 = uint64_t;
 using s64 = int64_t;
 
+// Lets GCC/Clang type check the arguments of printf style functions against their format string.
+// fmtIdx/firstArgIdx are 1 based and include the implicit `this` for non static member functions.
+#if defined(__GNUC__) || defined(__clang__)
+    #define RELIVE_PRINTF_FMT(fmtIdx, firstArgIdx) __attribute__((format(printf, fmtIdx, firstArgIdx)))
+#else
+    #define RELIVE_PRINTF_FMT(fmtIdx, firstArgIdx)
+#endif
+
 //using Bool32 = long;

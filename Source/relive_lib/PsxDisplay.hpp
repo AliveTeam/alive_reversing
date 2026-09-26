@@ -38,7 +38,7 @@ class DebugFont final
 {
 public:
     void DebugFont_Flush();
-    s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
+    s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...) RELIVE_PRINTF_FMT(3, 4);
     s32 DebugFont_Init(ResourceManagerWrapper& resMan);
 
     void PSX_DrawDebugTextBuffers(OrderingTable& ot);

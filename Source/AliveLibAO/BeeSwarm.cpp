@@ -402,22 +402,22 @@ void BeeSwarm::VUpdate()
             {
                 if (distToTargetX >= FP_FromInteger(0))
                 {
-                    tmpAng = abs_new_chase_x >= abs_new_chase_y ? 240 : 208;
+                    tmpAng = static_cast<s8>(abs_new_chase_x >= abs_new_chase_y ? 240 : 208);
                 }
                 else
                 {
-                    tmpAng = abs_new_chase_x <= abs_new_chase_y ? 176 : 144;
+                    tmpAng = static_cast<s8>(abs_new_chase_x <= abs_new_chase_y ? 176 : 144);
                 }
             }
             else
             {
                 if (distToTargetX <= FP_FromInteger(0))
                 {
-                    tmpAng = abs_new_chase_x >= abs_new_chase_y ? 112 : 80;
+                    tmpAng = static_cast<s8>(abs_new_chase_x >= abs_new_chase_y ? 112 : 80);
                 }
                 else
                 {
-                    tmpAng = abs_new_chase_x <= abs_new_chase_y ? 48 : 16;
+                    tmpAng = static_cast<s8>(abs_new_chase_x <= abs_new_chase_y ? 48 : 16);
                 }
             }
 

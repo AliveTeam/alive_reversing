@@ -57,8 +57,8 @@ public:
     virtual void VScreenChanged() override;
 
     static void ClearProperties();
-    static s32 DebugStr(const char_type* pStr, ...);
-    static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
+    static s32 DebugStr(const char_type* pStr, ...) RELIVE_PRINTF_FMT(1, 2);
+    static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...) RELIVE_PRINTF_FMT(2, 3);
 
     void Misc();
     void Teleport();

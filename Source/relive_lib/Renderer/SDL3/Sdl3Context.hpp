@@ -20,5 +20,4 @@ private:
     SDL_Renderer* mRenderer;
     SDL_Rect mLastClipRect;
     SDL_Texture* mLastFramebuffer;
-    SDL_Window* mWindow;
 };

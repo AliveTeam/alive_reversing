@@ -48,9 +48,9 @@ private:
         info.mNumMudsInPath = pd.mudsInLvl;
     }*/
 
-    Model& mModel;
-    const UndoRedoPathData mOldPd;
-    const UndoRedoPathData mNewPd;
+    [[maybe_unused]] Model& mModel;
+    [[maybe_unused]] const UndoRedoPathData mOldPd;
+    [[maybe_unused]] const UndoRedoPathData mNewPd;
 };
 
 PathDataEditorDialog::PathDataEditorDialog(QWidget *parent, EditorTab* pTab) :

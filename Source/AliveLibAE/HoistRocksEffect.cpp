@@ -10,12 +10,6 @@
 #include "Math.hpp"
 #include "../relive_lib/FixedPoint.hpp"
 
-const static AnimId HoistRocksAnimIdTable[4] = 
-{AnimId::HoistRock1,
-AnimId::HoistRock2,
-AnimId::HoistRock3,
-AnimId::HoistRock1};
-
 const static s16 sRndValues[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 void HoistRocksEffect::LoadAnimations()

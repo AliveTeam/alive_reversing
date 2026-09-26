@@ -166,10 +166,10 @@ void PauseMenu::VUpdate()
 
             enum Page1Selectables
             {
-                eContinue_0 = 0,
-                eSave_1 = 1,
-                eControls_2 = 2,
-                eQuit_3 = 3
+                eContinueOption_0 = 0,
+                eSaveOption_1 = 1,
+                eControlsOption_2 = 2,
+                eQuitOption_3 = 3
             };
 
             switch (field_126_page)
@@ -214,14 +214,14 @@ void PauseMenu::VUpdate()
                     {
                         switch (field_124)
                         {
-                            case Page1Selectables::eContinue_0:
+                            case Page1Selectables::eContinueOption_0:
                             {
                                 field_11C = 0;
                                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                                 SND_Restart(mMap);
                                 break;
                             }
-                            case Page1Selectables::eSave_1:
+                            case Page1Selectables::eSaveOption_1:
                             {
                                 field_126_page = PauseMenuPages::eSave_1;
                                 field_12C = 0;
@@ -263,14 +263,14 @@ void PauseMenu::VUpdate()
 #endif
                                 break;
                             }
-                            case Page1Selectables::eControls_2:
+                            case Page1Selectables::eControlsOption_2:
                             {
                                 field_126_page = PauseMenuPages::eControls_2;
                                 field_128_controller_id = 0;
                                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                                 break;
                             }
-                            case Page1Selectables::eQuit_3:
+                            case Page1Selectables::eQuitOption_3:
                             {
                                 field_126_page = PauseMenuPages::eQuit_3;
                                 field_124 = 0;

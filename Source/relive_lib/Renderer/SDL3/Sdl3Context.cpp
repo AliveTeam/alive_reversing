@@ -1,7 +1,6 @@
 #include "Sdl3Context.hpp"
 
 Sdl3Context::Sdl3Context(SDL_Window* window)
-    : mWindow(window)
 {
     mRenderer = SDL_CreateRenderer(window, NULL);
     if (!mRenderer)

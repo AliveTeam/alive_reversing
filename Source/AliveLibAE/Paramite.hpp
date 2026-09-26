@@ -379,7 +379,6 @@ private:
     s16 field_15C_paramite_xOffset = 0;
     GameSpeakListener mListener;
     bool mHissBeforeAttack = false;
-    bool mControlled = false;
     bool mRunning = false;
     bool mHissedOrLeftScreen = false;
     bool mPreventDepossession = false;

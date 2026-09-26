@@ -58,7 +58,7 @@ public:
     { }
 
     static void ClearProperties();
-    static void DebugStr(const char_type* pFormatStr, ...);
+    static void DebugStr(const char_type* pFormatStr, ...) RELIVE_PRINTF_FMT(1, 2);
 
     void Teleport();
     void Menu_Movies();

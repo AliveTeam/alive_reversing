@@ -268,12 +268,6 @@ private:
 class FmvConv final
 {
 public:
-    explicit FmvConv(FileSystem& fs)
-        : mFs(fs)
-    {
-
-    }
-
     // pScan, when given, overrides the source's own (possibly unknown/0) frame size and
     // frame count - see ScanFmvSource() above. Returns true once the movie is fully encoded and
     // its temp output file has been moved into place; false if the source couldn't be opened, or
@@ -832,7 +826,6 @@ private:
     }
 
 private:
-    FileSystem& mFs;
     std::string mCurrentMovieName;
     const int kVideoTrackNumber = 1;
     const int kAudioTrackNumber = 2;
@@ -882,7 +875,7 @@ public:
 
         mProgress.ReportItemStarted(mMovieName, mTotalFrames);
 
-        FmvConv fmvConv(mFs);
+        FmvConv fmvConv;
         bool completed = false;
         if (mIsAo)
         {

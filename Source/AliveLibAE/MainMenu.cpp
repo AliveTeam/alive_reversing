@@ -2951,7 +2951,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             return 1;
 
         case 2:
-            if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == camTransEffectState::eUnknown_7)
+            if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == static_cast<s16>(camTransEffectState::eUnknown_7))
             {
                 // Find the record for GTILOGO.DDV
                 if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
