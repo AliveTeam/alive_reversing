@@ -82,14 +82,15 @@ extern "C"
 #endif
 
 #ifdef _WIN32
-    constexpr AEGameInfo kAeInfo = {
+    // The map pointers are filled in by PopulateAutoSplitterMapVars() once the Engine has created the map
+    AEGameInfo sAeInfo = {
         "{DBC2AE1C-A5DE-465F-A89A-C385BE1DEFCC}",
         // 2 byte padding (32bit)
         &gameType,
-        &gMap.mCurrentLevel,
-        &gMap.mCurrentPath,
-        &gMap.mCurrentCamera,
-        &gMap.mFmvPending,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
         &sGnFrame,
         &gAbe,
         offsetof(Abe, mYPos),
@@ -97,16 +98,16 @@ extern "C"
 
     const void* GetAeInfo()
     {
-        return &kAeInfo;
+        return &sAeInfo;
     }
 
-    constexpr AOGameInfo kAoInfo = {
+    AOGameInfo sAoInfo = {
         "{1D2E2B5A-19EE-4776-A0EE-98F49F781370}",
         // 2 byte padding (32bit)
         &gameType,
-        &AO::gMap.mCurrentLevel,
-        &AO::gMap.mCurrentPath,
-        &AO::gMap.mCurrentCamera,
+        nullptr,
+        nullptr,
+        nullptr,
         &::sGnFrame,
         &AO::gAbe,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
@@ -115,7 +116,7 @@ extern "C"
 
     const void* GetAoInfo()
     {
-        return &kAoInfo;
+        return &sAoInfo;
     }
 #endif
 }
@@ -124,6 +125,22 @@ extern "C"
 void PopulateAutoSplitterVars(GameType gameType)
 {
     AutoSplitterData::gameType = gameType;
+}
+
+static void PopulateAutoSplitterMapVars(BaseMap& map)
+{
+#ifdef _WIN32
+    AutoSplitterData::sAeInfo.levelId = &map.mCurrentLevel;
+    AutoSplitterData::sAeInfo.pathId = &map.mCurrentPath;
+    AutoSplitterData::sAeInfo.camId = &map.mCurrentCamera;
+    AutoSplitterData::sAeInfo.fmvId = &map.mFmvPending;
+
+    AutoSplitterData::sAoInfo.levelId = &map.mCurrentLevel;
+    AutoSplitterData::sAoInfo.pathId = &map.mCurrentPath;
+    AutoSplitterData::sAoInfo.camId = &map.mCurrentCamera;
+#else
+    (void) map;
+#endif
 }
 
 #ifndef _WIN32
@@ -330,6 +347,7 @@ s32 main(s32 argc, char_type** argv)
     PopulateAutoSplitterVars(gameToRun);
 
     Engine e(gameToRun, fs, clp);
+    e.SetMapCreatedCallback(PopulateAutoSplitterMapVars);
     e.Run();
 
     return 0;

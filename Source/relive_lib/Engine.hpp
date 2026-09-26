@@ -25,6 +25,13 @@ public:
     Engine(GameType gameType, FileSystem& fs, CommandLineParser& clp);
     ~Engine();
     void Run();
+
+    // Called from Run() once the game's map exists (e.g. so the exe can publish its address for auto-splitters)
+    using TMapCreatedCb = void (*)(BaseMap& map);
+    void SetMapCreatedCallback(TMapCreatedCb cb)
+    {
+        mMapCreatedCb = cb;
+    }
     static void Init_GameStates();
 private:
     void CmdLineRenderInit(const std::string& activeModName);
@@ -41,4 +48,5 @@ private:
     std::unique_ptr<ResourceManagerWrapper> mResMan;
     std::unique_ptr<BaseMap> mMap;
     relive::Factory mFactory;
+    TMapCreatedCb mMapCreatedCb = nullptr;
 };

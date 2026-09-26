@@ -824,6 +824,8 @@ add_dependencies(relive_lib_tests UpdateConfigHeader)
 # relive_lib_tests REUSE_FROM relive_lib's own PCH is set up in the top-level CMakeLists.txt,
 # alongside relive_lib's own target_precompile_headers call it needs to come after.
 if (MSVC)
-    target_compile_options(relive_lib_tests PRIVATE /MDd)
+    # Must match relive_lib: same (static) CRT as the lib it links, and the same warning level as the
+    # PCH it reuses, otherwise C4652/LNK4098 and CRT symbol clashes
+    target_compile_options(relive_lib_tests PRIVATE /W4 /wd4996)
 endif()
 add_test(NAME relive_lib_tests COMMAND relive_lib_tests)

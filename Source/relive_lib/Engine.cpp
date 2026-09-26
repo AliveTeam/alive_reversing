@@ -653,6 +653,11 @@ void Engine::Run()
     {
         mMap = std::make_unique<AO::Map>(*mResMan, mFactory);
     }
+
+    if (mMapCreatedCb)
+    {
+        mMapCreatedCb(*mMap);
+    }
     GetGameAutoPlayer().ProcessCommandLine(mFs, mClp);
 
     sCommandLine_ShowFps = mClp.SwitchExists("-ddfps");
