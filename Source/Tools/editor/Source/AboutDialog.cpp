@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QDebug>
 #include <SDL3/SDL.h>
+#define OV_EXCLUDE_STATIC_CALLBACKS // we supply our own ov_callbacks, avoid unused static ones
 #include <vorbis/vorbisfile.h>
 #include <algorithm>
 #include <cstring>
