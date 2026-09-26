@@ -1,5 +1,10 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
+# Vendored code - we don't own it so don't let its warnings drown out ours
+if (NOT MSVC)
+    add_compile_options(-w)
+endif()
+
 
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(ENABLE_DOCS OFF)
@@ -65,6 +70,20 @@ target_include_directories(googletest SYSTEM PUBLIC
 
 export(TARGETS googletest FILE googletest.cmake)
 set_property(TARGET googletest PROPERTY FOLDER "3rdParty")
+
+# googletest lib dynamic crt - for test executables that also link Qt (which requires /MDd)
+add_library(googletest_dynamic_crt
+    googletest/googletest/src/gtest-all.cc
+    googletest/googlemock/src/gmock-all.cc
+    )
+
+get_target_property(GOOGLETEST_INCLUDE_DIRS googletest INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(googletest_dynamic_crt SYSTEM PUBLIC ${GOOGLETEST_INCLUDE_DIRS})
+if (MSVC)
+    target_compile_options(googletest_dynamic_crt PRIVATE /MDd)
+endif()
+export(TARGETS googletest_dynamic_crt FILE googletest_dynamic_crt.cmake)
+set_property(TARGET googletest_dynamic_crt PROPERTY FOLDER "3rdParty")
 
 # dear imgui lib
 add_library(imgui

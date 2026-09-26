@@ -44,7 +44,7 @@ inline void log_impl(LogLevels logLevel, const char* funcName, const char* forma
             printf("[!] ");
             break;
     }
-    printf("[TID %lu] [%s] ", std::hash<std::thread::id>{}(std::this_thread::get_id()), funcName);
+    printf("[TID %zu] [%s] ", std::hash<std::thread::id>{}(std::this_thread::get_id()), funcName);
     vprintf(format, args);
     printf("\n");
     va_end(args);

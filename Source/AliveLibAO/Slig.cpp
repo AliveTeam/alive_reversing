@@ -5652,7 +5652,7 @@ void Slig::CreateFromSaveState(SerializedObjectData& pBuffer, ResourceManagerWra
         pSlig->field_114_timer = pState->mTimer114;
         pSlig->mReturnToPreviousMotion = pState->mReturnToPreviousMotion;
         pSlig->mCheckedIfOffScreen = pState->mCheckedIfOffScreen;
-        pSlig->mInput = pState->mInput;
+        pSlig->mInput = static_cast<s16>(pState->mInput);
         pSlig->field_128_timer = pState->mTimer128;
         pSlig->field_134_tlvInfo = pState->mTlvInfo;
         pSlig->field_13A_shot_motion = pState->mShotMotion;
