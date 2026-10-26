@@ -78,6 +78,11 @@ void InvisibleSwitch::VUpdate_4335A0()
         case States::eWaitForTrigger_0:
         {
             // sControlledCharacter_50767C can be nullptr during the game ender
+            if (!sControlledCharacter_50767C)
+            {
+                break;
+            }
+            
             // Within X bounds?
             const FP charXPos = sControlledCharacter_50767C->field_A8_xpos;
             if (sControlledCharacter_50767C && charXPos >= FP_FromInteger(field_20_top_left.field_0_x) && charXPos <= FP_FromInteger(field_24_bottom_right.field_0_x))
