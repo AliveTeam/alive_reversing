@@ -79,7 +79,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
             field_38_state = States::eWaitForTrigger_0;
         }
     }
-    else if (field_38_state == States::eWaitForTrigger_0)
+    else if (field_38_state == States::eWaitForTrigger_0 && sControlledCharacter_5C1B8C)
     {
         // If not trying to turn off the target and the state is set
         if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get_466020(field_20_switch_id))
