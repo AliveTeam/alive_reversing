@@ -64,6 +64,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/relive)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_integration_test)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_api_unit_test)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Source/Tools/relive_path_dump)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/assets)
 
 # -----------------------------------------------------------------------------
@@ -81,6 +82,7 @@ set_target_properties(relive         PROPERTIES UNITY_BUILD OFF)
 set_target_properties(relive_api      PROPERTIES UNITY_BUILD OFF) # too big
 set_target_properties(relive_api_integration_test PROPERTIES UNITY_BUILD OFF) # too big
 set_target_properties(relive_api_unit_test PROPERTIES UNITY_BUILD OFF) # too big
+set_target_properties(relive_path_dump PROPERTIES UNITY_BUILD OFF)
 
 # -----------------------------------------------------------------------------
 
@@ -118,6 +120,7 @@ target_precompile_headers(
 
 target_precompile_headers(relive_api_integration_test REUSE_FROM AliveLibAO)
 target_precompile_headers(relive_api_unit_test REUSE_FROM AliveLibAO)
+target_precompile_headers(relive_path_dump REUSE_FROM AliveLibAO)
 target_precompile_headers(relive       REUSE_FROM AliveLibAO)
 
 # 'relive_api' needs its own PCH because of different `_CRT_SECURE_NO_WARNINGS`
